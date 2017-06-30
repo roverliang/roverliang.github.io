@@ -93,15 +93,16 @@
 
 
 
-<meta name="description" content="roverliang&apos;s blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Roverliang">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网beanstakkd官网 下方的感谢语说： Many thanks to memcached for providing inspiration for simple protocol design and for the structure of the documentation. Not to me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="beanstalkd">
+<meta property="og:url" content="http://yoursite.com/2017/06/29/beanstalkd/index.html">
 <meta property="og:site_name" content="Roverliang">
-<meta property="og:description" content="roverliang&apos;s blog">
+<meta property="og:description" content="Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网beanstakkd官网 下方的感谢语说： Many thanks to memcached for providing inspiration for simple protocol design and for the structure of the documentation. Not to me">
+<meta property="og:updated_time" content="2017-06-29T11:29:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Roverliang">
-<meta name="twitter:description" content="roverliang&apos;s blog">
+<meta name="twitter:title" content="beanstalkd">
+<meta name="twitter:description" content="Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网beanstakkd官网 下方的感谢语说： Many thanks to memcached for providing inspiration for simple protocol design and for the structure of the documentation. Not to me">
 
 
 
@@ -129,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/29/beanstalkd/"/>
 
 
 
 
 
-  <title>Roverliang</title>
+  <title>beanstalkd | Roverliang</title>
   
 
 
@@ -160,9 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -245,9 +244,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -273,9 +272,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/29/beanstalkd/" itemprop="url">beanstalkd</a></h2>
+          <h2 class="post-title" itemprop="name headline">beanstalkd</h2>
         
 
         <div class="post-meta">
@@ -322,32 +319,49 @@
       
 
       
+        <blockquote>
+<p>Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网<a href="http://kr.github.io/beanstalkd/" target="_blank" rel="external">beanstakkd官网</a> 下方的感谢语说：</p>
+<p>Many thanks to memcached for providing inspiration for simple protocol design and for the structure of the documentation. Not to mention a fantastic piece of software!</p>
+<p>对于其底层协议感兴趣的可以去github上看，介绍的很清楚。本文只对beanstalkd 的应用提供思路上的阐释，不列举具体的代码。直到beanstalkd 能够干什么，才能够再实践中去应用。但是怎么用beanstalkd 干活解决问题，则要去网上看beanstalkd 的API,每种语言的都有，可以各取所需。</p>
+</blockquote>
+<p>Beanstalkd 的意思是魔豆，他的队列管理器叫做tube。一般的队列都是先进先出，适合N:M 的生产者消费者处理模型。想象一下如下的模型：我们的业务中经常需要适应高并发的场景，当1万个用户同时访问某个接口时，为了响应服务，我们需要尽可能的加速接口的响应效率。有时候我们只负责提交任务，而不关注任务是否处理成功或者失败。这时候使用过程化的思路解决问题，就会受到牵制。假若盲目的增加机器，压榨mysql的性能，还是不能阻挡十万、百万并发。这时候可以考虑使用异步去处理，接口收到请求之后，立刻将任务放进队列里，新启一台脚本机，起若干进程来消费任务。</p>
+<p>####为什么要使用Beanstalkd</p>
+<p>实际业务中，有时候会出现队列与队列之间相互依赖的情况。比如A,B两个队列。A负责往数据库中insert数据，而B队列负责update数据。只有插入数据库后，我们才能进行update。但是如果同时开两个队列。因为队列执行的先后是不可控的，这就造成了B update的时候，不知道A是否已经insert。另外比如Reids的队列机制，一但消费者从队列中取出了一个job。但是由于神奇的原因，失败掉了，怎么办？任务就这样丢失了，这个任务再也处理不掉了。</p>
+<p>带着这些问题，我们交给BeansTalkd来解决。</p>
+<h4 id="理解Beanstalkd的队列机制"><a href="#理解Beanstalkd的队列机制" class="headerlink" title="理解Beanstalkd的队列机制"></a>理解Beanstalkd的队列机制</h4><p>Beanstalkd 是CS结构，有Server端和Client段之分。Server端都是一样的，负责存储和消费队列任务。但是Client端由于各种语言各种框架，就各部相同。</p>
+<p>任务在队里之中被称作Job. 一个Job 再Beanstalkd中有以下的生命周期：</p>
+<ol>
+<li>put:将一个任务放置进tube中</li>
+<li>deayed: 这个任务现在再等待中，需要若干秒才能准备完毕【延迟队列】</li>
+<li>ready: 这个任务已经准备好了，可以消费了。所有的消费都是要从取ready状态的job</li>
+<li>reserved: 这个任务已经被消费者消费。</li>
+<li>release: 这个job执行失败了，把它放进ready状态队列中。让其他队列执行。</li>
+<li>bury:这个job执行失败了，但不希望其他队列执行，先把它埋起来。</li>
+</ol>
+<p>这是一个job生命周期的主要状态，如果有讲的不全的，可以去翻看API.</p>
+<p>各种语言的演示代码都大同小异，这里就不浪费纸张了。</p>
+
+      
+    </div>
+
+    <div>
+      
         
-          
-          
-Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网beanstakkd官网 下方的感谢语说：
-Many thanks to memcached for providing inspiration for simple protocol design and
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/29/beanstalkd/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
-      
-    </div>
-
-    <div>
       
     </div>
 
@@ -355,21 +369,22 @@ Many thanks to memcached for providing inspiration for simple protocol design an
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -377,6 +392,10 @@ Many thanks to memcached for providing inspiration for simple protocol design an
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -396,8 +415,17 @@ Many thanks to memcached for providing inspiration for simple protocol design an
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -441,6 +469,22 @@ Many thanks to memcached for providing inspiration for simple protocol design an
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#理解Beanstalkd的队列机制"><span class="nav-number">1.</span> <span class="nav-text">理解Beanstalkd的队列机制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -554,10 +598,10 @@ Many thanks to memcached for providing inspiration for simple protocol design an
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
