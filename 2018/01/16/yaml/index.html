@@ -93,16 +93,18 @@
 
 
 
-<meta name="description" content="Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网beanstakkd官网 下方的感谢语说： Many thanks to memcached for providing inspiration for simple protocol design and for the structure of the documentation. Not to me">
+<meta name="description" content="PHP 与 YAML 这一段时间都没有写blog，并不是因为事情多，而是自己变懒了。看到新技术也不愿意深入思考其背后的原理，学习C++语言了近一个多月，由于学习方法有问题，并没有什么项目可以练手。靠每天的一小会，并不能学会C++。 今天的YAML 也其实并没有必要写。但是今天给自己定了一个任务，就是要写一篇博客，那就从这篇文章开始吧。  ###一 、安装 安装过程省略了，下面是phpinfo()函">
 <meta property="og:type" content="article">
-<meta property="og:title" content="beanstalkd">
-<meta property="og:url" content="http://yoursite.com/2017/06/29/beanstalkd/index.html">
+<meta property="og:title" content="PHP与YAML">
+<meta property="og:url" content="http://yoursite.com/2018/01/16/yaml/index.html">
 <meta property="og:site_name" content="Roverliang">
-<meta property="og:description" content="Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网beanstakkd官网 下方的感谢语说： Many thanks to memcached for providing inspiration for simple protocol design and for the structure of the documentation. Not to me">
-<meta property="og:updated_time" content="2017-06-29T11:29:36.000Z">
+<meta property="og:description" content="PHP 与 YAML 这一段时间都没有写blog，并不是因为事情多，而是自己变懒了。看到新技术也不愿意深入思考其背后的原理，学习C++语言了近一个多月，由于学习方法有问题，并没有什么项目可以练手。靠每天的一小会，并不能学会C++。 今天的YAML 也其实并没有必要写。但是今天给自己定了一个任务，就是要写一篇博客，那就从这篇文章开始吧。  ###一 、安装 安装过程省略了，下面是phpinfo()函">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_%e5%b1%8f%e5%b9%95%e5%bf%ab%e7%85%a7%202018-01-16%2020.38.04.png">
+<meta property="og:updated_time" content="2018-01-16T14:29:29.688Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="beanstalkd">
-<meta name="twitter:description" content="Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网beanstakkd官网 下方的感谢语说： Many thanks to memcached for providing inspiration for simple protocol design and for the structure of the documentation. Not to me">
+<meta name="twitter:title" content="PHP与YAML">
+<meta name="twitter:description" content="PHP 与 YAML 这一段时间都没有写blog，并不是因为事情多，而是自己变懒了。看到新技术也不愿意深入思考其背后的原理，学习C++语言了近一个多月，由于学习方法有问题，并没有什么项目可以练手。靠每天的一小会，并不能学会C++。 今天的YAML 也其实并没有必要写。但是今天给自己定了一个任务，就是要写一篇博客，那就从这篇文章开始吧。  ###一 、安装 安装过程省略了，下面是phpinfo()函">
+<meta name="twitter:image" content="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_%e5%b1%8f%e5%b9%95%e5%bf%ab%e7%85%a7%202018-01-16%2020.38.04.png">
 
 
 
@@ -130,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/29/beanstalkd/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/16/yaml/"/>
 
 
 
 
 
-  <title>beanstalkd | Roverliang</title>
+  <title>PHP与YAML | Roverliang</title>
   
 
 
@@ -255,7 +257,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/29/beanstalkd/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/yaml/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="roverliang">
@@ -272,7 +274,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">beanstalkd</h2>
+          <h2 class="post-title" itemprop="name headline">PHP与YAML</h2>
         
 
         <div class="post-meta">
@@ -284,8 +286,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T19:29:35+08:00">
-                2017-06-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T22:29:30+08:00">
+                2018-01-16
               </time>
             
 
@@ -319,27 +321,28 @@
       
 
       
-        <blockquote>
-<p>Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网<a href="http://kr.github.io/beanstalkd/" target="_blank" rel="external">beanstakkd官网</a> 下方的感谢语说：</p>
-<p>Many thanks to memcached for providing inspiration for simple protocol design and for the structure of the documentation. Not to mention a fantastic piece of software!</p>
-<p>对于其底层协议感兴趣的可以去github上看，介绍的很清楚。本文只对beanstalkd 的应用提供思路上的阐释，不列举具体的代码。直到beanstalkd 能够干什么，才能够再实践中去应用。但是怎么用beanstalkd 干活解决问题，则要去网上看beanstalkd 的API,每种语言的都有，可以各取所需。</p>
+        <h3 id="PHP-与-YAML"><a href="#PHP-与-YAML" class="headerlink" title="PHP 与 YAML"></a>PHP 与 YAML</h3><blockquote>
+<p>这一段时间都没有写blog，并不是因为事情多，而是自己变懒了。看到新技术也不愿意深入思考其背后的原理，学习C++语言了近一个多月，由于学习方法有问题，并没有什么项目可以练手。靠每天的一小会，并不能学会C++。</p>
+<p>今天的YAML 也其实并没有必要写。但是今天给自己定了一个任务，就是要写一篇博客，那就从这篇文章开始吧。</p>
 </blockquote>
-<p>Beanstalkd 的意思是魔豆，他的队列管理器叫做tube。一般的队列都是先进先出，适合N:M 的生产者消费者处理模型。想象一下如下的模型：我们的业务中经常需要适应高并发的场景，当1万个用户同时访问某个接口时，为了响应服务，我们需要尽可能的加速接口的响应效率。有时候我们只负责提交任务，而不关注任务是否处理成功或者失败。这时候使用过程化的思路解决问题，就会受到牵制。假若盲目的增加机器，压榨mysql的性能，还是不能阻挡十万、百万并发。这时候可以考虑使用异步去处理，接口收到请求之后，立刻将任务放进队列里，新启一台脚本机，起若干进程来消费任务。</p>
-<p>####为什么要使用Beanstalkd</p>
-<p>实际业务中，有时候会出现队列与队列之间相互依赖的情况。比如A,B两个队列。A负责往数据库中insert数据，而B队列负责update数据。只有插入数据库后，我们才能进行update。但是如果同时开两个队列。因为队列执行的先后是不可控的，这就造成了B update的时候，不知道A是否已经insert。另外比如Reids的队列机制，一但消费者从队列中取出了一个job。但是由于神奇的原因，失败掉了，怎么办？任务就这样丢失了，这个任务再也处理不掉了。</p>
-<p>带着这些问题，我们交给BeansTalkd来解决。</p>
-<h4 id="理解Beanstalkd的队列机制"><a href="#理解Beanstalkd的队列机制" class="headerlink" title="理解Beanstalkd的队列机制"></a>理解Beanstalkd的队列机制</h4><p>Beanstalkd 是CS结构，有Server端和Client段之分。Server端都是一样的，负责存储和消费队列任务。但是Client端由于各种语言各种框架，就各部相同。</p>
-<p>任务在队里之中被称作Job. 一个Job 再Beanstalkd中有以下的生命周期：</p>
-<ol>
-<li>put:将一个任务放置进tube中</li>
-<li>deayed: 这个任务现在再等待中，需要若干秒才能准备完毕【延迟队列】</li>
-<li>ready: 这个任务已经准备好了，可以消费了。所有的消费都是要从取ready状态的job</li>
-<li>reserved: 这个任务已经被消费者消费。</li>
-<li>release: 这个job执行失败了，把它放进ready状态队列中。让其他队列执行。</li>
-<li>bury:这个job执行失败了，但不希望其他队列执行，先把它埋起来。</li>
-</ol>
-<p>这是一个job生命周期的主要状态，如果有讲的不全的，可以去翻看API.</p>
-<p>各种语言的演示代码都大同小异，这里就不浪费纸张了。</p>
+<p>###一 、安装</p>
+<p>安装过程省略了，下面是phpinfo()函数打印出的结果图，如果有下面这个选项，就表明yaml安装成功了。</p>
+<p><img src="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_%e5%b1%8f%e5%b9%95%e5%bf%ab%e7%85%a7%202018-01-16%2020.38.04.png" alt="yaml 安装成功图"></p>
+<p>###二 、了解YAML</p>
+<p>1)、基本的语法规则如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">大小写敏感</div><div class="line">使用缩进表示层级关系</div><div class="line">缩进时不允许使用Tab键，只允许使用空格。</div><div class="line">缩进的空格数目不重要，只要相同层级的元素左侧对齐即可</div><div class="line"># 表示注释，注释当前这一行</div></pre></td></tr></table></figure>
+<p>2）、YAML支持三种数据结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">对象：键值对的集合，又称为映射（mapping）/ 哈希（hashes） / 字典（dictionary）</div><div class="line">数组：一组按次序排列的值，又称为序列（sequence） / 列表（list）</div><div class="line">纯量（scalars）：单个的、不可再分的值</div></pre></td></tr></table></figure>
+<h3 id="三-、-实践"><a href="#三-、-实践" class="headerlink" title="三 、 实践"></a>三 、 实践</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#this object</span></div><div class="line"><span class="attr">test_arr:</span> </div><div class="line"><span class="attr">    a:</span> </div><div class="line"><span class="attr">      name:</span> <span class="string">jack</span></div><div class="line"><span class="attr">      sex:</span> <span class="number">1</span></div><div class="line"><span class="attr">    foo:</span> <span class="string">bar</span></div><div class="line"><span class="attr">    favorite:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">test</span></div><div class="line"><span class="bullet">      -</span> <span class="string">jkk</span></div><div class="line"><span class="bullet">      -</span> <span class="string">jkjk</span></div><div class="line"><span class="attr">test2_arr:</span></div><div class="line"><span class="attr">    b:</span> <span class="string">orange</span></div><div class="line"><span class="attr">    c:</span> <span class="string">cup</span></div><div class="line"></div><div class="line"><span class="comment"># test array</span></div><div class="line"><span class="attr">favorite:</span></div><div class="line"><span class="bullet">  -</span> <span class="string">apple</span></div><div class="line"><span class="bullet">  -</span> <span class="string">orange</span></div><div class="line"><span class="bullet">  -</span> <span class="string">girl</span></div><div class="line"><span class="bullet">  -</span> <span class="string">air</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># test 纯量</span></div><div class="line"><span class="attr">number:</span> <span class="number">12.30</span></div><div class="line"><span class="attr">is_man:</span> <span class="literal">true</span></div><div class="line"><span class="attr">is_null:</span> <span class="string">~</span></div><div class="line"><span class="attr">e:</span> <span class="type">!!str</span> <span class="number">123</span></div><div class="line"><span class="attr">f:</span> <span class="type">!!str</span> <span class="literal">false</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>然后在PHP脚本中引用以上写法</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$yaml = file_get_contents(<span class="string">'./test.yaml'</span>);</div><div class="line">$arr = yaml_parse($yaml);</div><div class="line">var_dump($arr);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>参考文档</p>
+</blockquote>
+<p>1、<a href="http://6rz.me/2013/09/yaml/" target="_blank" rel="external">yaml 安装php扩展</a></p>
+<p>2、<a href="http://www.ruanyifeng.com/blog/2016/07/yaml.html" target="_blank" rel="external">YAML 语言教程</a></p>
 
       
     </div>
@@ -376,15 +379,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/06/29/beanstalkd/" rel="next" title="beanstalkd">
+                <i class="fa fa-chevron-left"></i> beanstalkd
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/16/yaml/" rel="prev" title="PHP与YAML">
-                PHP与YAML <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -495,7 +498,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#理解Beanstalkd的队列机制"><span class="nav-number">1.</span> <span class="nav-text">理解Beanstalkd的队列机制</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP-与-YAML"><span class="nav-number">1.</span> <span class="nav-text">PHP 与 YAML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-、-实践"><span class="nav-number">2.</span> <span class="nav-text">三 、 实践</span></a></li></ol></div>
             
 
           </div>
