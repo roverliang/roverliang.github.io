@@ -93,15 +93,18 @@
 
 
 
-<meta name="description" content="roverliang&apos;s blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Roverliang">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="身为程序员最讨厌看到的代码没有注释，自己的代码却讨厌写注释，觉得麻烦，接口也是这样。 比如公司要做一个H5活动的页面，开发文档已经发到后端开发、设计、与前端的邮箱了，其实这个时候就可以开始开发了。开发人员开始论证H5页面中逻辑是否能够实现，以及该逻辑的合理性，及时的反馈给产品进行修改或者优化。等一切都定下来的时候，各方面就可以开始动工了。 一般来说，设计资源会在后端接口开发完成之前给到。对于一个对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用apiDoc简化接口开发">
+<meta property="og:url" content="http://yoursite.com/2018/01/25/apidoc/index.html">
 <meta property="og:site_name" content="Roverliang">
-<meta property="og:description" content="roverliang&apos;s blog">
+<meta property="og:description" content="身为程序员最讨厌看到的代码没有注释，自己的代码却讨厌写注释，觉得麻烦，接口也是这样。 比如公司要做一个H5活动的页面，开发文档已经发到后端开发、设计、与前端的邮箱了，其实这个时候就可以开始开发了。开发人员开始论证H5页面中逻辑是否能够实现，以及该逻辑的合理性，及时的反馈给产品进行修改或者优化。等一切都定下来的时候，各方面就可以开始动工了。 一般来说，设计资源会在后端接口开发完成之前给到。对于一个对">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_1516892906467.jpg">
+<meta property="og:updated_time" content="2018-01-25T15:24:00.790Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Roverliang">
-<meta name="twitter:description" content="roverliang&apos;s blog">
+<meta name="twitter:title" content="用apiDoc简化接口开发">
+<meta name="twitter:description" content="身为程序员最讨厌看到的代码没有注释，自己的代码却讨厌写注释，觉得麻烦，接口也是这样。 比如公司要做一个H5活动的页面，开发文档已经发到后端开发、设计、与前端的邮箱了，其实这个时候就可以开始开发了。开发人员开始论证H5页面中逻辑是否能够实现，以及该逻辑的合理性，及时的反馈给产品进行修改或者优化。等一切都定下来的时候，各方面就可以开始动工了。 一般来说，设计资源会在后端接口开发完成之前给到。对于一个对">
+<meta name="twitter:image" content="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_1516892906467.jpg">
 
 
 
@@ -129,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/25/apidoc/"/>
 
 
 
 
 
-  <title>Roverliang</title>
+  <title>用apiDoc简化接口开发 | Roverliang</title>
   
 
 
@@ -160,9 +163,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -245,9 +246,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -273,9 +274,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/25/apidoc/" itemprop="url">用apiDoc简化接口开发</a></h2>
+          <h2 class="post-title" itemprop="name headline">用apiDoc简化接口开发</h2>
         
 
         <div class="post-meta">
@@ -322,31 +321,40 @@
       
 
       
+        <p>身为程序员最讨厌看到的代码没有注释，自己的代码却讨厌写注释，觉得麻烦，接口也是这样。</p>
+<p>比如公司要做一个H5活动的页面，开发文档已经发到后端开发、设计、与前端的邮箱了，其实这个时候就可以开始开发了。开发人员开始论证H5页面中逻辑是否能够实现，以及该逻辑的合理性，及时的反馈给产品进行修改或者优化。等一切都定下来的时候，各方面就可以开始动工了。</p>
+<p>一般来说，设计资源会在后端接口开发完成之前给到。对于一个对开发工作足够得心应手的后端工程师，一般看到设计稿，就知道接口的数据结构和内部的逻辑是怎么样的。因此不必等到接口真正开发完成，才给到前端同学。</p>
+<p>这样子前端同学和后端同学，均能并行开发。比如一个H5活动页面需要原来需要1个星期来完成，现在只需要4天时间，节省的两天，程序员就可以用来提升自己技能和用来休息了。</p>
+<p>但是呢，人都是惰性的。开发的时候不愿意写文档，尤其是接口文档，觉得很麻烦。我的同事们，有时候也懒得写接口文档，前端同学根据接口返回的数据来进行开发，有时候接口返回数据出错，前端并不知道正确的接口数据是什么，就会发生耽误开发时间，本来能够如期完成工作，结果在对接接口方面花费了太多的时间。</p>
+<p>在大量的接口开发工作中，我使用了很多文档工具，如Markdown 工具（马克飞象），另外一个就是ApiDoc文档生成工具。markdown 语法大部分写过程序的同学都知道，比较好用，适合写个博客什么的，可以把写作的焦点放在内容上，而不是格式上。但是对于markdown 写的接口文档来讲，可能就不太适用了。接口文档需要丰富的格式来构建层次，还需要表格来装载参数。当接口很多的时候，还需要将接口分类，还需要有检索接口的功能。另外一个痛点就是，比如后端PHP开发同学写了个markdown文档，给到了前端同学，或者客户端同学，还要提示他们如何使用。并不是每个人电脑都装了markdown解析器。这样子就很烦人了，还好ApiDoc 解决了这个棘手的问题。</p>
+<p>用了很长时间，总结了ApiDoc 的几个优点：</p>
+<p>1、安装简便，傻瓜式安装</p>
+<p>2、接口文档语法很简单，不必增加记忆成本，写接口文档很轻松，不再耗费大量时间，而是顺手复制粘贴</p>
+<p>3、生成的文档格式漂亮，并且实用，满足了开发人员对接口的各种需求。</p>
+<p>由于本文并不是讲述ApiDoc 的教程文档，说实在话，这类东西，还是官方的文档最实用。参数那么多，并不需要拿个小本本记下来，需要的时候，到官网上复制粘贴即可，用多了，自然常用的就会记下来。附一张ApiDoc 生成文档的截图：</p>
+<p><img src="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_1516892906467.jpg" alt="apidoc接口文档示意图" style="width:100%; display:block;"></p>
+
+      
+    </div>
+
+    <div>
+      
         
-          
-          身为程序员最讨厌看到的代码没有注释，自己的代码却讨厌写注释，觉得麻烦，接口也是这样。
-比如公司要做一个H5活动的页面，开发文档已经发到后端开发、设计、与前端的邮箱了，其实这个时候就可以开始开发了。开发人员开始论证H5页面中逻辑是否能够实现，以及该逻辑的合理性，及时的反馈给产品进行修改或者优化。等一切
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/25/apidoc/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
-      
-    </div>
-
-    <div>
       
     </div>
 
@@ -354,261 +362,38 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/yaml/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="roverliang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Roverliang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/16/yaml/" itemprop="url">未命名</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T22:52:46+08:00">
-                2018-01-16
-              </time>
+              <a href="/2018/01/16/yaml/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          
-这一段时间都没有写blog，并不是因为事情多，而是自己变懒了。看到新技术也不愿意深入思考其背后的原理，学习C++语言了近一个多月，由于学习方法有问题，并没有什么项目可以练手。靠每天的一小会，并不能学会C++。
-今天的YAML 也其实并没有必要写。但是今天给自己定了一个任务，就是要写一篇博客，那就从
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/16/yaml/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/29/beanstalkd/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="roverliang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Roverliang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/29/beanstalkd/" itemprop="url">beanstalkd</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T19:29:35+08:00">
-                2017-06-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          
-Beanstalkd 是一个轻量级的内存型队列，利用了和Memcache 类似的协议。其官网beanstakkd官网 下方的感谢语说：
-Many thanks to memcached for providing inspiration for simple protocol design and
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/29/beanstalkd/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -616,6 +401,10 @@ Many thanks to memcached for providing inspiration for simple protocol design an
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -793,10 +582,10 @@ Many thanks to memcached for providing inspiration for simple protocol design an
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
