@@ -1,0 +1,732 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="roverliang's blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Docker 常用命令记录：  下载镜像:   1docker pull ubuntu:16.04   运行镜像：  1docker run -it --rm \ubuntu:16.04 \bash   列出已经下载下来的镜像:  12345roverliang$ docker image lsREPOSITORY           TAG                 IMAGE ID">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Roverliang">
+<meta property="og:url" content="http://yoursite.com/2018/02/06/docker_default_command/index.html">
+<meta property="og:site_name" content="Roverliang">
+<meta property="og:description" content="Docker 常用命令记录：  下载镜像:   1docker pull ubuntu:16.04   运行镜像：  1docker run -it --rm \ubuntu:16.04 \bash   列出已经下载下来的镜像:  12345roverliang$ docker image lsREPOSITORY           TAG                 IMAGE ID">
+<meta property="og:updated_time" content="2018-02-07T09:52:18.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Roverliang">
+<meta name="twitter:description" content="Docker 常用命令记录：  下载镜像:   1docker pull ubuntu:16.04   运行镜像：  1docker run -it --rm \ubuntu:16.04 \bash   列出已经下载下来的镜像:  12345roverliang$ docker image lsREPOSITORY           TAG                 IMAGE ID">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/06/docker_default_command/"/>
+
+
+
+
+
+  <title> | Roverliang</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Roverliang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">代码如诗|生活如虹</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/06/docker_default_command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="roverliang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Roverliang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-06T23:48:34+08:00">
+                2018-02-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Docker 常用命令记录：</p>
+<blockquote>
+<p>下载镜像:</p>
+</blockquote>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull ubuntu:16.04</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>运行镜像：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -it --rm \ubuntu:16.04 \bash</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>列出已经下载下来的镜像:</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">roverliang$ docker image ls</div><div class="line"></div><div class="line">REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE</div><div class="line">ubuntu               16.04               0458a4468cbc        11 days ago         112MB</div><div class="line">daocloud.io/ubuntu   14.04               dc4491992653        11 days ago         222MB</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>显示中间层镜像</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker image ls -a</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>暂时关闭镜像</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker stop  dc4491992653</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>删除镜像</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi -f dc4491992653</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>搜索镜像包</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker search nginx</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>docker run 参数详解</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</div><div class="line"></div><div class="line"></div><div class="line">OPTIONS说明：</div><div class="line"></div><div class="line">-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</div><div class="line"></div><div class="line">-d: 后台运行容器，并返回容器ID；</div><div class="line"></div><div class="line">-i: 以交互模式运行容器，通常与 -t 同时使用；</div><div class="line"></div><div class="line">-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</div><div class="line"></div><div class="line">--name="nginx-lb": 为容器指定一个名称；</div><div class="line"></div><div class="line">--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</div><div class="line"></div><div class="line">--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</div><div class="line"></div><div class="line">-h "mars": 指定容器的hostname；</div><div class="line"></div><div class="line">-e username="ritchie": 设置环境变量；</div><div class="line"></div><div class="line">--env-file=[]: 从指定文件读入环境变量；</div><div class="line"></div><div class="line">--cpuset="0-2" or --cpuset="0,1,2": 绑定容器到指定CPU运行；</div><div class="line"></div><div class="line">-m :设置容器使用内存最大值；</div><div class="line"></div><div class="line">--net="bridge": 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；</div><div class="line"></div><div class="line">--link=[]: 添加链接到另一个容器；</div><div class="line"></div><div class="line">--expose=[]: 开放一个端口或一组端口；</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>使用docker镜像nginx:latest以后台模式启动一个容器,并将容器命名为mynginx。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run --name mynginx -d nginx:latest</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>使用镜像nginx:latest以后台模式启动一个容器,并将容器的80端口映射到主机随机端口。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -P -d nginx:latest</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>使用镜像nginx:latest以后台模式启动一个容器,将容器的80端口映射到主机的80端口,主机的目录/data映射到容器的/data。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -p 80:80 -v /data:/data -d nginx:latest</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>使用镜像nginx:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">unoob@runoob:~$ docker run -it nginx:latest /bin/bash</div><div class="line">root@b8573233d675:/#</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>查看docker 中运行的进程</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">roverliang$ docker ps</div><div class="line"></div><div class="line">CONTAINER ID        IMAGE                              COMMAND                  CREATED             STATUS              PORTS                  NAMES</div><div class="line">0ce3f5408a81        ubuntu:16.04                       &quot;/bin/sh -c &apos;while t…&quot;   58 seconds ago      Up 59 seconds                              sharp_elion</div><div class="line">4adcdfef5a90        dockerpracticecn/docker_practice   &quot;nginx -g &apos;daemon of…&quot;   40 minutes ago      Up 37 minutes       0.0.0.0:4000-&gt;80/tcp   epic_rosalind</div><div class="line">roverliang$</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>查看docker 中的日志</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">docker logs 0ce3f5408a81</div><div class="line"></div><div class="line">添加-f 选项，默认使用tail -f 功能，显示最新的几条</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>查看某个服务的端口映射情况</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker port 7a38a1ad55c6</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>查看容器中各个进程的运行状况</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">roverliang$ docker top 0ce3f5408a81</div><div class="line"></div><div class="line">PID                 USER                TIME                COMMAND</div><div class="line">2919                0                   0:00                /bin/sh -c while true; do echo hello world; sleep 1; done</div><div class="line">3718                0                   0:00                sleep 1</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>重启某个容器</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker start 0ce3f5408a81</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>提交镜像</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">runoob@runoob:~$ docker commit -m=&quot;has update&quot; -a=&quot;runoob&quot; e218edb10161 runoob/ubuntu:v2</div><div class="line">sha256:70bf1840fd7c0d2d8ef0a42a817eb29f854c1af8f7c59fc03ac7bdee9545aff8</div><div class="line"></div><div class="line"></div><div class="line">各个参数说明：</div><div class="line"></div><div class="line">-m:提交的描述信息</div><div class="line"></div><div class="line">-a:指定镜像作者</div><div class="line"></div><div class="line">e218edb10161：容器ID</div><div class="line"></div><div class="line">runoob/ubuntu:v2:指定要创建的目标镜像名</div><div class="line"></div><div class="line">我们可以使用 docker images 命令来查看我们的新镜像 runoob/ubuntu:v2：</div></pre></td></tr></table></figure>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">1.12    1.13                用途</div><div class="line"></div><div class="line">attach  container attach    附加到一个运行的容器</div><div class="line">build   image build         从一个Dockerfile构建镜像</div><div class="line">commit  container commit    从一个容器的修改创建一个新的镜像</div><div class="line">cp      container cp        在容器与本地文件系统之间复制文件/文件夹</div><div class="line">create  container create    创建新的容器</div><div class="line">diff    container diff      检阅一个容器文件系统的修改</div><div class="line">events  system events       获取服务器的实时时间</div><div class="line">exec    container exec      在运行的容器内执行命令</div><div class="line">export  container export    打包一个容器文件系统到tar文件</div><div class="line">history image history       展示镜像历史信息</div><div class="line">images  image ls            展示镜像列表</div><div class="line">import  image import        用tar文件导入并创建镜像文件</div><div class="line">info    system info         展示整个系统信息</div><div class="line">inspect container inspect   展示一个容器/镜像或者任务的底层信息</div><div class="line">kill    container kill      终止一个或者多个运行中的容器</div><div class="line">load    image load          从tar文件或者标准输入载入镜像</div><div class="line">login   login               登录Docker registry</div><div class="line">logout  logout              从Docker registry登出</div><div class="line">logs    container logs      获取容器的日志</div><div class="line">network network             管理Docker网络</div><div class="line">node    node                管理Docker Swarm节点</div><div class="line">pause   container pause     暂停一个或者多个容器的所有进程</div><div class="line">port    container port      展示容器的端口映射</div><div class="line">ps      container ls        展示容器列表</div><div class="line">pull    image pull          从某个registry拉取镜像或者仓库</div><div class="line">push    image push          推送镜像或者仓库到某个registry</div><div class="line">rename  container rename    重命名容器</div><div class="line">restart container restart   重启容器</div><div class="line">rm      container rm        移除一个或多个容器</div><div class="line">rmi     image rm            移除一个或多个镜像</div><div class="line">run     container run       运行一个新的容器</div><div class="line">save    image save          打包一个或多个镜像到tar文件(默认是到标准输出)</div><div class="line">search  search              在Docker Hub搜索镜像</div><div class="line">service service             管理Docker services</div><div class="line">start   container start     启动一个或者多个容器</div><div class="line">stats   container stats     获取容器的实时资源使用统计</div><div class="line">stop    container stop      停止一个或多个运行容器</div><div class="line">swarm   swarm               管理Docker Swarm</div><div class="line">tag     image tag           标记一个镜像到仓库</div><div class="line">top     container top       展示容器运行进程</div><div class="line">unpause container unpause   解除暂停一个或多个容器的所有进程</div><div class="line">update  container update    更新一个或多个容器的配置</div><div class="line">version version             显示Docker版本信息</div><div class="line">volume  volume              管理Docker volumes</div><div class="line">wait    container wait      阻塞直到容器停止，然后打印退出代码</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/05/plupload/" rel="next" title="plupload 大文件分片上传与PHP分片合并探索">
+                <i class="fa fa-chevron-left"></i> plupload 大文件分片上传与PHP分片合并探索
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/08/docker_nginx_study/" rel="prev" title="Docker 使用入门，创建一个Nginx服务器">
+                Docker 使用入门，创建一个Nginx服务器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="roverliang" />
+          <p class="site-author-name" itemprop="name">roverliang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">roverliang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

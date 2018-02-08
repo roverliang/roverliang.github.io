@@ -1,0 +1,741 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="roverliang's blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="运行环境： MAC Docker 版本： Docker version 17.12.0-ce, build c97c6d6 一、启动Nginx 服务器 启动Nginx 服务器，并进入模拟终端  1docker run -p 8080:80 --name nginx_web -it  nginx /bin/bash 二、了解Nginx 镜像的配置文件位置123日志文件位置：/var/log/ngin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 使用入门，创建一个Nginx服务器">
+<meta property="og:url" content="http://yoursite.com/2018/02/08/docker_nginx_study/index.html">
+<meta property="og:site_name" content="Roverliang">
+<meta property="og:description" content="运行环境： MAC Docker 版本： Docker version 17.12.0-ce, build c97c6d6 一、启动Nginx 服务器 启动Nginx 服务器，并进入模拟终端  1docker run -p 8080:80 --name nginx_web -it  nginx /bin/bash 二、了解Nginx 镜像的配置文件位置123日志文件位置：/var/log/ngin">
+<meta property="og:updated_time" content="2018-02-08T05:27:51.371Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker 使用入门，创建一个Nginx服务器">
+<meta name="twitter:description" content="运行环境： MAC Docker 版本： Docker version 17.12.0-ce, build c97c6d6 一、启动Nginx 服务器 启动Nginx 服务器，并进入模拟终端  1docker run -p 8080:80 --name nginx_web -it  nginx /bin/bash 二、了解Nginx 镜像的配置文件位置123日志文件位置：/var/log/ngin">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/08/docker_nginx_study/"/>
+
+
+
+
+
+  <title>Docker 使用入门，创建一个Nginx服务器 | Roverliang</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Roverliang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">代码如诗|生活如虹</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/08/docker_nginx_study/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="roverliang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Roverliang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Docker 使用入门，创建一个Nginx服务器</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T13:24:00+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>运行环境：</strong> <code>MAC</code></p>
+<p><strong>Docker 版本：</strong> <code>Docker version 17.12.0-ce, build c97c6d6</code></p>
+<h3 id="一、启动Nginx-服务器"><a href="#一、启动Nginx-服务器" class="headerlink" title="一、启动Nginx 服务器"></a>一、启动Nginx 服务器</h3><blockquote>
+<p>启动Nginx 服务器，并进入模拟终端</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -p 8080:80 --name nginx_web -it  nginx /bin/bash</div></pre></td></tr></table></figure>
+<h3 id="二、了解Nginx-镜像的配置文件位置"><a href="#二、了解Nginx-镜像的配置文件位置" class="headerlink" title="二、了解Nginx 镜像的配置文件位置"></a>二、了解Nginx 镜像的配置文件位置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">日志文件位置：/var/log/nginx</div><div class="line">配置文件位置: /etc/nginx</div><div class="line">资源存放的位置: /usr/share/nginx/html</div></pre></td></tr></table></figure>
+<p><br><br><strong>上面的配置路径是我电脑上的虚拟linux中地址，请各位读者，也自己去看下自己的配置位置</strong></p>
+<h3 id="三、修改Nginx-的默认首页，测试是否可以运行"><a href="#三、修改Nginx-的默认首页，测试是否可以运行" class="headerlink" title="三、修改Nginx 的默认首页，测试是否可以运行"></a>三、修改Nginx 的默认首页，测试是否可以运行</h3><p><code>重要提示：</code> <strong>对于不想折腾的同学，可以直接从第四步来运行</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/usr/share/nginx/html</div><div class="line"></div><div class="line">echo &quot;&lt;h1&gt;Hello Docker&lt;/h1&gt;&quot; &gt; index.html</div></pre></td></tr></table></figure>
+<p><br><br><strong>到这里有的朋友，可能会发现，我访问localhost:8080 端口，第一次出现了Nginx 的欢迎界面，而第二次就出现了404 提示。</strong></p>
+<p>关于这个问题，本文不展开详序，如果不明白的，可以参考:</p>
+<ol>
+<li><a href="https://segmentfault.com/a/1190000009583997" target="_blank" rel="external">docker运行nginx为什么要使用 daemon off</a></li>
+<li><a href="http://blog.csdn.net/o1_1o/article/details/52710733" target="_blank" rel="external">docker容器运行后退出，怎么才能一直运行？
+</a></li>
+<li><a href="http://dockone.io/article/152" target="_blank" rel="external">Docker run 命令的使用方法</a></li>
+</ol>
+<p>Docker 执行 <code>docker run</code> 之后，先在当前操作系统的基础上，虚拟化了一个精简版的linux(仅仅包含系统运行的最精简功能)，然后加载我们的Nginx镜像。当Nginx镜像加载到我们的虚拟Linux环境中时，相当于在系统里执行了一个脚本，而这个脚本就是Nginx。</p>
+<p>由于默认的Nginx 是不作为守护进程运行的。所以当Docker内监听到80端口的请求后，完成之后，就退出了Nginx的进程。该容器内只有一个进程，并且是非守护的，执行完请求进程就销毁了。那么这个容器也就没有存在的必要了，所以Docker 中这个服务也就停掉了。这也就是我们执行 <code>docker top</code> 看不到当前运行的容器的原因。</p>
+<p>作为暂时解决Nginx 只执行一次就退出的问题，我们可以进入交互式终端，执行 <code>nginx &amp;</code> 让nginx 作为守护进程后台运行。</p>
+<p><br></p>
+<blockquote>
+<p>查看我们正在运行的容器</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">roverliang$ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</div></pre></td></tr></table></figure>
+<p><br></p>
+<p>如果什么内容都没有，说明当前没有正在运行的容器。</p>
+<blockquote>
+<p>查看已经运行结束的容器</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">roverliang$ docker ps -a</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS                  NAMES</div><div class="line">5bff285f60b3        nginx               &quot;/bin/bash&quot;              9 minutes ago       Exited (0) 6 minutes ago                           nginx_web</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>重新启动我们刚刚启动过的容器</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker start nginx_web</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>进入到我们的容器内部</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">docker attach nginx_web</div><div class="line"></div><div class="line">echo &quot;&lt;h1&gt;Hello Docker&lt;/h1&gt;&quot; &gt; /usr/share/nginx/html/index.html</div><div class="line"></div><div class="line">nginx &amp; </div><div class="line"></div><div class="line">然后 使用快捷键 control + Q 退出当前的容器</div><div class="line"></div><div class="line">之后我们在浏览器再次访问:http://localhost:8080/</div></pre></td></tr></table></figure>
+<p><br><br><strong>折腾了这么久，终于看到我们期望的的内容了。</strong></p>
+<p><br><br><span style="font-size:64px;color:black;">Hello Docker</span></p>
+<h3 id="四、将前面Nginx-Demo-变成一个可以玩的-Demo"><a href="#四、将前面Nginx-Demo-变成一个可以玩的-Demo" class="headerlink" title="四、将前面Nginx Demo 变成一个可以玩的 Demo"></a>四、将前面Nginx Demo 变成一个可以玩的 Demo</h3><blockquote>
+<p>先创建我们本机需要映射的文件夹</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir -p  docker_study/log  docker_study/etc docker_study/html</div></pre></td></tr></table></figure>
+<p><code>注意：</code> <strong>在自己的家目录创建</strong></p>
+<p><br></p>
+<blockquote>
+<p>复制我们docker中nginx 的配置文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker cp 65bc23f952db:/etc/nginx/ /Users/roverliang/docker_study/etc/</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>关闭掉我们的容器</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker stop nginx_web</div></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p>删除掉我们的练习的demo,我们重新来构建一个可以用的。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rm nginx_web</div></pre></td></tr></table></figure>
+<p><br></p>
+<p><br></p>
+<blockquote>
+<p>将Nginx 镜像和我们本机的目录进行映射，方便我们修改文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">docker run \</div><div class="line">-p 8080:80 \</div><div class="line">--name nginx_web \</div><div class="line">-v /Users/roverliang/docker_study/log/:/var/log/nginx \</div><div class="line">-v /Users/roverliang/docker_study/etc/nginx.conf:/etc/nginx/nginx.conf \</div><div class="line">-v /Users/roverliang/docker_study/html/:/usr/share/nginx/html \</div><div class="line">-it \</div><div class="line">-d \</div><div class="line">nginx \</div><div class="line">/bin/bash \</div></pre></td></tr></table></figure>
+<p><strong>运行到这里，我们可能还是会发现访问<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 没有内容。但是不要急，解决问题的过程，就是学习新东西的过程，继续网上查资料，参考如下：</strong></p>
+<p><a href="https://www.findhao.net/easycoding/1883" target="_blank" rel="external">Docker运行nginx</a></p>
+<p>摘抄文中让我豁然开朗的一段:</p>
+<blockquote>
+<p>我之前运行的时候，一般都采用交互式：<br>-i 保证容器的stdin开启-t 为容器生成一个tty终端，在命令的最后加一个/bin/bash来保证可以交互。但是实际上，nginx并没有运行，导致我以为容器的端口绑定不是持久化的。</p>
+</blockquote>
+<p>接下来我们需要关掉，并删除我们的容器，再按照如下的命令重启一个:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">docker run \</div><div class="line">-p 8080:80 \</div><div class="line">--name nginx_web \</div><div class="line">-v /Users/roverliang/docker_study/log/:/var/log/nginx \</div><div class="line">-v /Users/roverliang/docker_study/etc/nginx.conf:/etc/nginx/nginx.conf \</div><div class="line">-v /Users/roverliang/docker_study/html/:/usr/share/nginx/html \</div><div class="line">-d \</div><div class="line">nginx</div></pre></td></tr></table></figure>
+<h3 id="五、修改Nginx-配置，解析一个网站"><a href="#五、修改Nginx-配置，解析一个网站" class="headerlink" title="五、修改Nginx 配置，解析一个网站"></a>五、修改Nginx 配置，解析一个网站</h3><p>修改我们刚刚复制过来的nginx 配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">cd /Users/roverliang/docker_study/etc</div><div class="line">vim nginx.conf</div><div class="line"></div><div class="line">在Http 模块中添加如下配置:</div><div class="line"> server</div><div class="line">    &#123;   </div><div class="line">        listen 80; </div><div class="line">        server_name www.test_nginx.com;</div><div class="line">        index index.html;</div><div class="line">        root /usr/share/nginx/html;</div><div class="line">    &#125;   </div><div class="line"></div><div class="line">然后回到宿主机，绑定host 127.0.0.1      www.test_nginx.com</div></pre></td></tr></table></figure>
+<p>大功告成</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/06/docker_default_command/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="roverliang" />
+          <p class="site-author-name" itemprop="name">roverliang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、启动Nginx-服务器"><span class="nav-number">1.</span> <span class="nav-text">一、启动Nginx 服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、了解Nginx-镜像的配置文件位置"><span class="nav-number">2.</span> <span class="nav-text">二、了解Nginx 镜像的配置文件位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、修改Nginx-的默认首页，测试是否可以运行"><span class="nav-number">3.</span> <span class="nav-text">三、修改Nginx 的默认首页，测试是否可以运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、将前面Nginx-Demo-变成一个可以玩的-Demo"><span class="nav-number">4.</span> <span class="nav-text">四、将前面Nginx Demo 变成一个可以玩的 Demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、修改Nginx-配置，解析一个网站"><span class="nav-number">5.</span> <span class="nav-text">五、修改Nginx 配置，解析一个网站</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">roverliang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
