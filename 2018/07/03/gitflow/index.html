@@ -1,0 +1,729 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="roverliang's blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="一、 Git Flow 工作模型的原理无规矩不成方圆，但是规矩太多了，则感觉到束缚。我们一个人工作的时候喜欢无拘无束，想怎么干就怎么干，没有人评判，没有人检验。时间久了就会盲目自大，以为增删改查熟悉业务就能够搞定一些。但是当项目逐渐扩大，原来的灵活逐渐变成了混乱，原来的快速迭代因为过于随意的代码，而开发进度迟迟不前。掌握一种规范，便在处理类似问题的时候有章可循，也能够快速的融入一个团队。另外所谓规">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git Flow 工作模型与使用">
+<meta property="og:url" content="http://yoursite.com/2018/07/03/gitflow/index.html">
+<meta property="og:site_name" content="Roverliang">
+<meta property="og:description" content="一、 Git Flow 工作模型的原理无规矩不成方圆，但是规矩太多了，则感觉到束缚。我们一个人工作的时候喜欢无拘无束，想怎么干就怎么干，没有人评判，没有人检验。时间久了就会盲目自大，以为增删改查熟悉业务就能够搞定一些。但是当项目逐渐扩大，原来的灵活逐渐变成了混乱，原来的快速迭代因为过于随意的代码，而开发进度迟迟不前。掌握一种规范，便在处理类似问题的时候有章可循，也能够快速的融入一个团队。另外所谓规">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_flow.png">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_git-flow-commands.png">
+<meta property="og:updated_time" content="2018-07-03T11:44:47.016Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git Flow 工作模型与使用">
+<meta name="twitter:description" content="一、 Git Flow 工作模型的原理无规矩不成方圆，但是规矩太多了，则感觉到束缚。我们一个人工作的时候喜欢无拘无束，想怎么干就怎么干，没有人评判，没有人检验。时间久了就会盲目自大，以为增删改查熟悉业务就能够搞定一些。但是当项目逐渐扩大，原来的灵活逐渐变成了混乱，原来的快速迭代因为过于随意的代码，而开发进度迟迟不前。掌握一种规范，便在处理类似问题的时候有章可循，也能够快速的融入一个团队。另外所谓规">
+<meta name="twitter:image" content="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_flow.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/03/gitflow/"/>
+
+
+
+
+
+  <title>Git Flow 工作模型与使用 | Roverliang</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Roverliang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">代码如诗|生活如虹</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/gitflow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="roverliang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Roverliang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Git Flow 工作模型与使用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T19:44:47+08:00">
+                2018-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、-Git-Flow-工作模型的原理"><a href="#一、-Git-Flow-工作模型的原理" class="headerlink" title="一、 Git Flow 工作模型的原理"></a>一、 Git Flow 工作模型的原理</h2><p>无规矩不成方圆，但是规矩太多了，则感觉到束缚。我们一个人工作的时候喜欢无拘无束，想怎么干就怎么干，没有人评判，没有人检验。时间久了就会盲目自大，以为增删改查熟悉业务就能够搞定一些。但是当项目逐渐扩大，原来的灵活逐渐变成了混乱，原来的快速迭代因为过于随意的代码，而开发进度迟迟不前。掌握一种规范，便在处理类似问题的时候有章可循，也能够快速的融入一个团队。另外所谓规范，可以说是比较好的实践，按照规范来，项目也能稳健的发展。</p>
+<p>Git Flow 就是如何使用git 分支的一种规范，或者叫做推荐。</p>
+<p>根据Git Flow 的推荐，我们要将Git 的分支分为 <code>master</code> 、<code>develop</code> 、<code>hotfix</code> 、<code>release</code>、<code>feature</code>这五个分支。各种分支分别负责不同的功能，平时开发的时候各司其职，因此会有比较小的冲突率。那么可以用这些减少冲突的时间，少加会班，多有点自己的生活岂不快哉。一图胜千言：</p>
+<p><img src="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_flow.png" alt="git flow 模型"></p>
+<h3 id="master-分支"><a href="#master-分支" class="headerlink" title="master 分支"></a>master 分支</h3><p>master 分支主要方稳定、随时可上线的版本。这个分支只能从别的分支上合并过来，一般来讲，从develop 上合并，或者从bugfix 分支上合并过来。不能直接在master 分支上进行commit文件。因为是稳定的版本，所以每次版本发布都要在这个分支上添加<code>标签</code>(tag)。</p>
+<h3 id="develop-分支"><a href="#develop-分支" class="headerlink" title="develop 分支"></a>develop 分支</h3><p>develop 分支是所有开发分支的母体，所有的开发分支都要从develop上切出来，开发完成之后最后都要合并到develop上。</p>
+<h3 id="hotfix-分支"><a href="#hotfix-分支" class="headerlink" title="hotfix 分支"></a>hotfix 分支</h3><p>hotfix 分支用来修复生产中的紧急bug，由于develop分支尚处于开发过程中，代码不稳定，不能直接应用于生产。所以从master分支上切出一个分支，修复完成之后合并到master分支，并且合并到develop上。</p>
+<h3 id="release-分支"><a href="#release-分支" class="headerlink" title="release 分支"></a>release 分支</h3><p>release 分支可以称之为预发布的版本。当我们认为develop版本的代码已经趋于成熟，我们可以打一个release分支。在release 分支上测试完成之后，要将代码合并到master分支和develop上。master 分支是线上版本，而合并到develop版本是因为，在测试过程中，一些细节的东西可能会修改，因此这些优化的内容也应该合并到最终版本以及开发版本中。</p>
+<h3 id="feature-分支"><a href="#feature-分支" class="headerlink" title="feature 分支"></a>feature 分支</h3><p>feature 分支是最经常使用的分支了。当我们收到一个新的开发功能时，应该在develop分支上切出一个feature分支。用来完成新功能的开发，开发完成之后，要合并进develop分支上。</p>
+<h2 id="二、-Git-Flow-工具的使用"><a href="#二、-Git-Flow-工具的使用" class="headerlink" title="二、 Git Flow 工具的使用"></a>二、 Git Flow 工具的使用</h2><p>基本上各种git的客户端软件都会支持Git Flow 工作模型。sourcetree 上使用git flow 工作模型就很流畅，体验很好。但是为了全平台上通用，以及理解原理，快速上手。我们来学习下Git Flow 的命令行操作。</p>
+<p>git flow 是一种git的使用规范，当然也有相应的工具集，命令行命令让我们使用。</p>
+<p><img src="http://images.cnblogs.com/cnblogs_com/roverliang/915085/o_git-flow-commands.png" alt="git flow 命令行操作示意图"></p>
+<h3 id="1、起步"><a href="#1、起步" class="headerlink" title="1、起步"></a>1、起步</h3><p><strong>安装git flow</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install git-flow-avh</div></pre></td></tr></table></figure>
+<p><strong>初始化git flow 工具库</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git flow init</div><div class="line">之后都按照默认的去配置，直接按enter键继续。</div></pre></td></tr></table></figure>
+<h3 id="2、feature-分支操作"><a href="#2、feature-分支操作" class="headerlink" title="2、feature 分支操作"></a>2、feature 分支操作</h3><p><strong>增加feature新特性分支</strong></p>
+<blockquote>
+<p>适用场景，需要开发新功能</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow feature start your roverliang/addlist</div></pre></td></tr></table></figure>
+<p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">roverliang$ git flow feature start roverliang/addlist</div><div class="line">Switched to a new branch &apos;feature/roverliang/addlist&apos;</div><div class="line"></div><div class="line">Summary of actions:</div><div class="line">- A new branch &apos;feature/roverliang/addlist&apos; was created, based on &apos;develop&apos;</div><div class="line">- You are now on branch &apos;feature/roverliang/addlist&apos;</div><div class="line"></div><div class="line">Now, start committing on your feature. When done, use:</div><div class="line"></div><div class="line">     git flow feature finish roverliang/addlist</div><div class="line"></div><div class="line">roverliang$ git branch</div><div class="line">  develop</div><div class="line">* feature/roverliang/addlist</div><div class="line">  master</div></pre></td></tr></table></figure>
+<p><strong>完成新特性</strong><br>这个动作执行的是下面的流程:</p>
+<ul>
+<li>☆ 合并 addlist 分支到 develop</li>
+<li>☆ 删除这个新特性分支</li>
+<li>☆ 切换回 develop 分支</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow feature finish roverliang/addlist</div></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">roverliang$ git flow feature finish roverliang/addlist</div><div class="line">Switched to branch &apos;develop&apos;</div><div class="line">Your branch is up to date with &apos;origin/develop&apos;.</div><div class="line">Already up to date.</div><div class="line">Deleted branch feature/roverliang/addlist (was 2e1b475).</div><div class="line"></div><div class="line">Summary of actions:</div><div class="line">- The feature branch &apos;feature/roverliang/addlist&apos; was merged into &apos;develop&apos;</div><div class="line">- Feature branch &apos;feature/roverliang/addlist&apos; has been locally deleted</div><div class="line">- You are now on branch &apos;develop&apos;</div><div class="line"></div><div class="line">roverliang$ git branch</div><div class="line">* develop</div><div class="line">  master</div><div class="line">roverliang$</div></pre></td></tr></table></figure>
+<p><strong>获取一个发布的新特性的分支</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow feature track origin MYFEATURE</div></pre></td></tr></table></figure>
+<h3 id="3、release-分支操作"><a href="#3、release-分支操作" class="headerlink" title="3、release 分支操作"></a>3、release 分支操作</h3><p><strong>准备release 版本</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git flow release start RELEASE [BASE]</div><div class="line"></div><div class="line">你可以选择提供一个 [BASE]参数，即提交记录的 sha-1 hash 值，来开启动 release 分支. 这个提交记录的 sha-1 hash 值必须是&apos;develop&apos; 分支下的。</div></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">roverliang$ git branch</div><div class="line">  develop</div><div class="line">  feature/test</div><div class="line">* master</div><div class="line">roverliang$ git log --pretty=oneline -3</div><div class="line">2e1b475f9825275aefa0892cfe5259aaac9a3483 (HEAD -&gt; master, origin/test2, origin/master, origin/feature/test, origin/develop, feature/test, develop) delte some content</div><div class="line">2d22f306d2dca363b8aaa05743be342a505aabb0        renamed:    demo.txt -&gt; test.txt</div><div class="line">fbf025e210952c3cdb10e219c4ee5f82b9f36327        modified:   demo.txt</div><div class="line">roverliang$</div></pre></td></tr></table></figure>
+<p><strong>发布release 版本</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow release track RELEASE</div></pre></td></tr></table></figure>
+<p><strong>完成release 版本</strong></p>
+<p>相当于执行以下几个动作：</p>
+<ul>
+<li>☆ 归并 release 分支到 ‘master’ 分支</li>
+<li>☆ 用 release 分支名打 Tag</li>
+<li>☆ 归并 release 分支到 ‘develop’</li>
+<li>☆ 移除 release 分支</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow release finish RELEASE</div></pre></td></tr></table></figure>
+<h3 id="3、bugfix-分支操作"><a href="#3、bugfix-分支操作" class="headerlink" title="3、bugfix 分支操作"></a>3、bugfix 分支操作</h3><p>紧急修复的需求：</p>
+<ul>
+<li>☆ 紧急修复来自这样的需求：生产环境的版本处于一个不预期状态，需要立即修正。</li>
+<li>☆ 有可能是需要修正 master 分支上某个 TAG 标记的生产版本。</li>
+</ul>
+<p><strong>开始紧急修复，开启hotfix 分支</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git flow hotfix start VERSION [BASENAME]</div><div class="line"></div><div class="line">VERSION 参数标记着修正版本。你可以从 [BASENAME]开始，[BASENAME]为finish release时填写的版本号</div></pre></td></tr></table></figure>
+<p><strong>完成紧急修复</strong></p>
+<blockquote>
+<p>当完成紧急修复分支，代码归并回 develop 和 master 分支。相应地，master 分支打上修正版本的 TAG。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow hotfix finish VERSION</div></pre></td></tr></table></figure>
+<p>本文参考：</p>
+<ul>
+<li><a href="http://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html" target="_blank" rel="external">git-flow 备忘清单</a></li>
+<li><a href="https://gitbook.tw/chapters/gitflow/why-need-git-flow.html" target="_blank" rel="external">Git Flow 是什麼？為什麼需要這種東西？</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/08/docker_nginx_study/" rel="next" title="Docker 使用入门，创建一个Nginx服务器">
+                <i class="fa fa-chevron-left"></i> Docker 使用入门，创建一个Nginx服务器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="roverliang" />
+          <p class="site-author-name" itemprop="name">roverliang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、-Git-Flow-工作模型的原理"><span class="nav-number">1.</span> <span class="nav-text">一、 Git Flow 工作模型的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#master-分支"><span class="nav-number">1.1.</span> <span class="nav-text">master 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#develop-分支"><span class="nav-number">1.2.</span> <span class="nav-text">develop 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hotfix-分支"><span class="nav-number">1.3.</span> <span class="nav-text">hotfix 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#release-分支"><span class="nav-number">1.4.</span> <span class="nav-text">release 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#feature-分支"><span class="nav-number">1.5.</span> <span class="nav-text">feature 分支</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、-Git-Flow-工具的使用"><span class="nav-number">2.</span> <span class="nav-text">二、 Git Flow 工具的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、起步"><span class="nav-number">2.1.</span> <span class="nav-text">1、起步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、feature-分支操作"><span class="nav-number">2.2.</span> <span class="nav-text">2、feature 分支操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、release-分支操作"><span class="nav-number">2.3.</span> <span class="nav-text">3、release 分支操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、bugfix-分支操作"><span class="nav-number">2.4.</span> <span class="nav-text">3、bugfix 分支操作</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">roverliang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
